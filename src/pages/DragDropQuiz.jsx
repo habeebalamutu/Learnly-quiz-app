@@ -39,6 +39,9 @@ export default function DragDropQuiz() {
   const [timer, setTimer] = useState(35);
   const [timeUp, setTimeUp] = useState(false);
 
+  // When true, we show the detailed breakdown instead of the main final screen
+  const [showComments, setShowComments] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => {
@@ -76,8 +79,7 @@ export default function DragDropQuiz() {
   const getCorrectCount = () => {
     let correctCount = 0;
     for (const definition in matchedAnswers) {
-      const userTerm = matchedAnswers[definition];
-      if (isCorrectAnswer(definition, userTerm)) {
+      if (isCorrectAnswer(definition, matchedAnswers[definition])) {
         correctCount++;
       }
     }
@@ -105,6 +107,7 @@ export default function DragDropQuiz() {
     setLessonCount(0);
     setTimer(35);
     setTimeUp(false);
+    setShowComments(false);
   };
 
   const correctCount = getCorrectCount();
@@ -112,6 +115,55 @@ export default function DragDropQuiz() {
   const quizDone = allDropped || timeUp;
 
   if (quizDone) {
+    if (showComments) {
+      // Show detailed breakdown
+      return (
+        <div className="quiz-container">
+          <div className="quiz-header">
+            <button className="back-button" onClick={() => navigate("/")}>
+              ←
+            </button>
+            <p className="quiz-title">Course Preview</p>
+            <button className="question-button">?</button>
+          </div>
+          <div className="lesson-tracker">
+            <div className="lesson-info">
+              <p className="lesson-text">Lesson {lessonValue}</p>
+              <div className="progress-underscores">{underscores}</div>
+            </div>
+            <div className="timer">
+              <span className="phone-icon">📱</span> 00:
+              {timer < 10 ? `0${timer}` : timer}
+            </div>
+          </div>
+          <h2 className="match-title">Detailed Breakdown</h2>
+          <div className="time-up-section">
+            {Object.entries(correctMappings).map(([definition, correctTerm]) => {
+              const userAnswer = matchedAnswers[definition];
+              const correct = userAnswer === correctTerm;
+              return (
+                <p key={definition} className="time-up-msg">
+                  <strong>{definition}</strong> →{" "}
+                  {userAnswer
+                    ? `${userAnswer} ${correct ? "✅" : "❌"}`
+                    : "No answer"}
+                </p>
+              );
+            })}
+          </div>
+          <div className="button-container">
+            <button className="shuffle-button" onClick={handleShuffle}>
+              🔄
+            </button>
+            <button className="continue-button" onClick={() => navigate("/")}>
+              Home →
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Main final screen
     return (
       <div className="quiz-container">
         <div className="quiz-header">
@@ -133,7 +185,11 @@ export default function DragDropQuiz() {
         </div>
         <h2 className="match-title">Match the Algebraic Terms!</h2>
         <div className="time-up-section">
-          {timeUp && !allDropped ? (
+          {correctCount === 5 ? (
+            <p className="time-up-msg">
+              Congratulations! You passed 5/5!
+            </p>
+          ) : timeUp && !allDropped ? (
             <p className="time-up-msg">
               Time’s up! You matched <strong>{correctCount}</strong> out of 5.
             </p>
@@ -143,15 +199,14 @@ export default function DragDropQuiz() {
             </p>
           )}
           <p className="time-up-msg">
-            Please <strong>Shuffle</strong> to restart or <strong>Continue</strong> to go
-            home.
+            Click <strong>Continue</strong> to see a detailed breakdown or <strong>Shuffle</strong> to restart.
           </p>
         </div>
         <div className="button-container">
           <button className="shuffle-button" onClick={handleShuffle}>
             🔄
           </button>
-          <button className="continue-button" onClick={() => navigate("/")}>
+          <button className="continue-button" onClick={() => setShowComments(true)}>
             Continue →
           </button>
         </div>
