@@ -179,7 +179,7 @@ export default function DragDropQuiz() {
             <div className="progress-underscores">{underscores}</div>
           </div>
           <div className="timer">
-            <span className="phone-icon">📱</span> 00:
+            <span className="phone-icon">⏰</span> 00:
             {timer < 10 ? `0${timer}` : timer}
           </div>
         </div>

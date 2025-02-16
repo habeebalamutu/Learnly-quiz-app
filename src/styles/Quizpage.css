@@ -30,11 +30,11 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  background-color: #f3f3f3;
+  background-color: #e7d4e5;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #6c5ce7;
+  color: #8541df;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +45,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #6c5ce7;
+  background-color: purple;
   color: white;
   padding: 12px 20px;
   border-radius: 10px;
@@ -140,7 +140,7 @@ body {
 
 
 .continue-button {
-  width: 85%; 
+  width: 100%; 
   background-color: #6a0dad;
   color: white;
   padding: 12px 0;
