@@ -4,6 +4,15 @@ import { useNavigate } from "react-router-dom";
 import "../styles/dragdropquiz.css";
 
 
+const correctMappings = {
+  "A number that changes in an equation.": "Variable",
+  "A fixed number that does not change.": "Constant",
+  "A number that multiplies a variable.": "Coefficient",
+  "A combination of numbers, variables, and operations.": "Expression",
+  "A statement that two expressions are equal.": "Equation",
+};
+
+
 const initialDragOptions = [
   { id: "variable", text: "Variable" },
   { id: "constant", text: "Constant" },
@@ -11,14 +20,6 @@ const initialDragOptions = [
   { id: "expression", text: "Expression" },
   { id: "equation", text: "Equation" },
 ];
-
-const correctMappings = {
-  Variable: "A number that changes in an equation.",
-  Constant: "A fixed number that does not change.",
-  Coefficient: "A number that multiplies a variable.",
-  Expression: "A combination of numbers, variables, and operations.",
-  Equation: "A statement that two expressions are equal.",
-};
 
 
 function shuffleArray(array) {
@@ -51,50 +52,68 @@ export default function DragDropQuiz() {
   const totalLessons = 5;
 
 
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(35);
+  const [timeUp, setTimeUp] = useState(false);
 
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => {
-        if (prev > 0) return prev - 1;
-        clearInterval(interval);
-        return 0;
+        if (prev > 0) {
+          return prev - 1;
+        } else {
+
+          setTimeUp(true);
+          clearInterval(interval);
+          return 0;
+        }
       });
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
 
-
   const handleDragStart = (item) => {
+    if (timeUp) return;
     setDraggedItem(item);
   };
 
-
   const handleDrop = (definition) => {
-    if (!draggedItem) return;
+    if (!draggedItem || timeUp) return;
 
-   
     if (lessonCount < totalLessons) {
       setLessonCount((prev) => prev + 1);
     }
+
 
     setMatchedAnswers((prev) => ({
       ...prev,
       [definition]: draggedItem.text,
     }));
 
+
     setDroppedItems((prev) => [...prev, draggedItem.id]);
-
-
     setDraggedItem(null);
   };
 
 
-  const isCorrectAnswer = (definition, text) => {
-    return correctMappings[text] === definition;
+  const isCorrectAnswer = (definition, term) => {
+    
+    return correctMappings[definition] === term;
   };
+
+
+  const getCorrectCount = () => {
+    let correctCount = 0;
+    for (const definition in matchedAnswers) {
+      const userTerm = matchedAnswers[definition];
+      if (isCorrectAnswer(definition, userTerm)) {
+        correctCount++;
+      }
+    }
+    return correctCount;
+  };
+
 
   const underscores = [...Array(totalLessons)].map((_, idx) => {
     return idx < lessonCount ? (
@@ -108,21 +127,23 @@ export default function DragDropQuiz() {
     );
   });
 
-  const lessonValue = (1 + lessonCount * 0.1).toFixed(1); // 0→5 => 1.0→1.5
-
+  const lessonValue = (1 + lessonCount * 0.1).toFixed(1);
 
   const handleShuffle = () => {
     setDragOptions(shuffleArray(initialDragOptions));
     setDroppedItems([]);
     setMatchedAnswers({});
-
+    setLessonCount(0);
+    setTimer(35); 
+    setTimeUp(false);
   };
+
+  const correctCount = getCorrectCount();
 
   return (
     <div className="quiz-container">
-    
+
       <div className="quiz-header">
-       
         <button className="back-button" onClick={() => navigate("/")}>
           ←
         </button>
@@ -130,13 +151,12 @@ export default function DragDropQuiz() {
         <button className="question-button">?</button>
       </div>
 
-
+  
       <div className="lesson-tracker">
         <div className="lesson-info">
           <p className="lesson-text">Lesson {lessonValue}</p>
           <div className="progress-underscores">{underscores}</div>
         </div>
-      
         <div className="timer">
           <span className="phone-icon">📱</span> 00:
           {timer < 10 ? `0${timer}` : timer}
@@ -145,15 +165,27 @@ export default function DragDropQuiz() {
 
       <h2 className="match-title">Match the Algebraic Terms!</h2>
 
+   
+      {timeUp && (
+        <div className="time-up-section">
+          <p className="time-up-msg">
+            Time’s up! You matched <strong>{correctCount}</strong> of 5 so far.
+            <br />
+            Please <strong>Shuffle</strong> to restart.
+          </p>
+        </div>
+      )}
+
+
       <div className="drop-zones">
-        {Object.entries(correctMappings).map(([text, definition], index) => {
+        {Object.entries(correctMappings).map(([definition, correctTerm], idx) => {
           const userAnswer = matchedAnswers[definition];
           const hasAnswer = userAnswer !== undefined;
           const correct = hasAnswer && isCorrectAnswer(definition, userAnswer);
 
           return (
             <div
-              key={index}
+              key={idx}
               className={`drop-zone ${hasAnswer ? (correct ? "correct" : "wrong") : ""}`}
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => handleDrop(definition)}
@@ -170,7 +202,6 @@ export default function DragDropQuiz() {
         <p className="instruction-text">
           Drag the correct algebraic term below to match its definition above.
         </p>
-
         <div className="draggable-items">
           {dragOptions.map((option) => {
             const hasBeenDropped = droppedItems.includes(option.id);
@@ -178,7 +209,7 @@ export default function DragDropQuiz() {
               <motion.div
                 key={option.id}
                 className={`draggable ${hasBeenDropped ? "transparent" : ""}`}
-                draggable
+                draggable={!timeUp} 
                 onDragStart={() => handleDragStart(option)}
               >
                 {option.text}
@@ -188,13 +219,10 @@ export default function DragDropQuiz() {
         </div>
       </div>
 
-
       <div className="button-container">
-
         <button className="shuffle-button" onClick={handleShuffle}>
           🔄
         </button>
-
         <button className="continue-button" onClick={() => navigate("/")}>
           Continue →
         </button>
@@ -202,4 +230,3 @@ export default function DragDropQuiz() {
     </div>
   );
 }
-
