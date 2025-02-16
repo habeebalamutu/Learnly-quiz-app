@@ -1,0 +1,45 @@
+.home-container {
+  max-width: 400px;
+  margin: 50px auto;        
+  padding: 20px;
+  text-align: center;
+  background: #ffffff;     
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+}
+
+.home-title {
+  font-size: 28px;      /* Larger font for the title */
+  font-weight: 700;
+  color: #6c5ce7;       /* Purple color to match your theme */
+  margin-bottom: 10px;
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-button {
+  background-color: #6c5ce7;  
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+}
+
+.quiz-button:hover {
+  background-color: #5a4ec7;  
+}

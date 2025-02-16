@@ -1,0 +1,220 @@
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.quiz-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.back-button,
+.question-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.back-button {
+  background-color: #f3f3f3;
+}
+
+.question-button {
+  background-color: white;
+  color: purple;
+  font-size: 20px;
+}
+
+
+.lesson-tracker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 10px;
+}
+
+.lesson-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lesson-text {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.progress-underscores {
+  display: flex;
+  gap: 4px;
+  font-size: 129px;
+  margin-top: -10px;
+}
+
+.white-underscore,
+.purple-underscore {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.white-underscore {
+  color: lightgray;
+}
+
+.purple-underscore {
+  color: purple;
+}
+
+.timer {
+  width: 50px;
+  height: 50px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.match-title {
+  margin: 15px 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.drop-zones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 5px;
+}
+
+
+.drop-zones > :nth-child(5) {
+  grid-column: 1 / 3;
+  justify-self: center;
+}
+
+.drop-zone {
+  min-height: 50px;
+  border: 2px dashed lightgray;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+}
+
+
+.correct {
+  background-color: #e0f7e9;
+  color: green;
+}
+
+.wrong {
+  background-color: #fde2e2;
+  color: red;
+}
+
+
+.draggable-section {
+  width: 100%;
+  max-width: 400px;
+  background-color: #f9f9f9;
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.instruction-text {
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+.draggable-items {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.draggable {
+  padding: 10px 15px;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  cursor: grab;
+}
+
+
+.draggable.transparent {
+  opacity: 0.5;
+}
+
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+
+.shuffle-button,
+.continue-button {
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+
+.shuffle-button {
+  background-color: white;
+  color: black;
+  border: 2px solid lightgray;
+  width: 60px;  
+}
+
+
+.continue-button {
+  background-color: purple;
+  color: white;
+  flex: 1;       
+  text-align: center;
+}

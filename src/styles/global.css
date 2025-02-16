@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  button {
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #5b0ca7;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .options button {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    border: 2px solid #ddd;
+    background: white;
+    color: black;
+    transition: 0.3s;
+  }
+  
+  .options button:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .correct {
+    border-color: green;
+    background-color: #d4edda;
+  }
+  
+  .wrong {
+    border-color: red;
+    background-color: #f8d7da;
+  }
+  
+  .success-msg {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .error-msg {
+    color: red;
+    font-weight: bold;
+  }
+  
