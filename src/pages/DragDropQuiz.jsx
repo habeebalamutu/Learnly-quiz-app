@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import "../styles/DragDropQuiz.css";
+import "../styles/dragdropquiz.css";
 
 
 const initialDragOptions = [
