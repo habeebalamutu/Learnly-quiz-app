@@ -38,8 +38,6 @@ export default function DragDropQuiz() {
   const totalLessons = 5;
   const [timer, setTimer] = useState(35);
   const [timeUp, setTimeUp] = useState(false);
-
-  // When true, we show the detailed breakdown instead of the main final screen
   const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
@@ -61,6 +59,8 @@ export default function DragDropQuiz() {
 
   const handleDrop = (definition) => {
     if (!draggedItem || timeUp) return;
+    // Prevent dropping on an already answered question
+    if (matchedAnswers[definition]) return;
     if (lessonCount < totalLessons) {
       setLessonCount((prev) => prev + 1);
     }
@@ -116,7 +116,6 @@ export default function DragDropQuiz() {
 
   if (quizDone) {
     if (showComments) {
-      // Show detailed breakdown
       return (
         <div className="quiz-container">
           <div className="quiz-header">
@@ -162,8 +161,6 @@ export default function DragDropQuiz() {
         </div>
       );
     }
-
-    // Main final screen
     return (
       <div className="quiz-container">
         <div className="quiz-header">
@@ -186,9 +183,7 @@ export default function DragDropQuiz() {
         <h2 className="match-title">Match the Algebraic Terms!</h2>
         <div className="time-up-section">
           {correctCount === 5 ? (
-            <p className="time-up-msg">
-              Congratulations! You passed 5/5!
-            </p>
+            <p className="time-up-msg">Congratulations! You passed 5/5!</p>
           ) : timeUp && !allDropped ? (
             <p className="time-up-msg">
               Time’s up! You matched <strong>{correctCount}</strong> out of 5.
@@ -213,7 +208,6 @@ export default function DragDropQuiz() {
       </div>
     );
   }
-
   return (
     <div className="quiz-container">
       <div className="quiz-header">
